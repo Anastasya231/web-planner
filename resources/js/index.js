@@ -1,16 +1,20 @@
-// Перевірка, чи завантажився jQuery
-if (typeof jQuery === 'undefined') {
-    console.error('jQuery не завантажився! Перевірте підключення до файлу vendors/js/jquery.min.js');
-} else {
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("jQuery version:", typeof jQuery !== 'undefined' ? jQuery.fn.jquery : "Not loaded");
+
+    if (typeof jQuery === 'undefined') {
+        console.error('jQuery не завантажився! Перевірте підключення до файлу vendors/js/jquery.min.js');
+        return;
+    }
+
     $(document).ready(function() {
-        // Ініціалізація змінних
+        console.log("jQuery is ready!");
+
         let workoutSchedule = {};
         let foodList = [];
         const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
         const muscleGroups = ["Chest", "Back", "Legs", "Shoulder", "Biceps", "Triceps", "Abs"];
         let selectedMuscles = [];
 
-        // Профіль
         window.saveProfile = function() {
             const name = document.getElementById('name').value;
             const weight = document.getElementById('weight').value;
@@ -30,8 +34,8 @@ if (typeof jQuery === 'undefined') {
             document.getElementById('profileInfo').textContent = savedProfile;
         }
 
-        // Планування розкладу (виправлено)
         window.makeSchedule = function() {
+            console.log("makeSchedule called");
             selectedMuscles = [];
             muscleGroups.forEach(muscle => {
                 if (document.getElementById(muscle).checked) {
@@ -39,13 +43,14 @@ if (typeof jQuery === 'undefined') {
                 }
             });
 
-            // Очищаємо попередній розклад
+            console.log("Selected muscles:", selectedMuscles);
+
             days.forEach(day => {
-                document.getElementById(day).innerHTML = '';
-                workoutSchedule[day] = [];
+                const element = document.getElementById(day);
+                if (element) element.innerHTML = '';
+                if (workoutSchedule[day]) workoutSchedule[day] = [];
             });
 
-            // Генеруємо новий розклад
             if (selectedMuscles.length > 0) {
                 let startDay = document.getElementById('firstday').value;
                 let startIndex = days.indexOf(startDay);
@@ -54,23 +59,24 @@ if (typeof jQuery === 'undefined') {
                 for (let i = 0; i < days.length; i++) {
                     let currentDayIndex = (startIndex + i) % days.length;
                     let currentDay = days[currentDayIndex];
-                    // Якщо м’язів більше, ніж днів, циклічно розподіляємо
                     let muscle = selectedMuscles[muscleIndex % selectedMuscles.length];
-                    document.getElementById(currentDay).innerHTML = muscle;
-                    workoutSchedule[currentDay].push(muscle);
+                    const element = document.getElementById(currentDay);
+                    if (element) element.innerHTML = muscle;
+                    if (workoutSchedule[currentDay]) workoutSchedule[currentDay].push(muscle);
                     muscleIndex++;
                 }
             } else {
                 days.forEach(day => {
-                    document.getElementById(day).innerHTML = "Rest";
-                    workoutSchedule[day].push("Rest");
+                    const element = document.getElementById(day);
+                    if (element) element.innerHTML = "Rest";
+                    if (workoutSchedule[day]) workoutSchedule[day].push("Rest");
                 });
             }
         };
 
-        // Додавання їжі (виправлено)
         $('.cal-form').on('submit', function(e) {
             e.preventDefault();
+            console.log("cal-form submitted");
             const name = document.getElementById('food-name').value;
             const calories = document.getElementById('food-calories').value;
             const protein = document.getElementById('food-protein').value;
@@ -80,14 +86,14 @@ if (typeof jQuery === 'undefined') {
                 document.getElementById('food-name').value = '';
                 document.getElementById('food-calories').value = '';
                 document.getElementById('food-protein').value = '';
-                calCal(); // Оновлюємо підрахунок
+                calCal();
             } else {
                 document.querySelector('.food-note span').textContent = 'Please enter food name and calories.';
             }
         });
 
-        // Підрахунок калорій і протеїнів
         window.calCal = function() {
+            console.log("calCal called");
             let totalCalories = 0;
             let totalProtein = 0;
             foodList.forEach(food => {
@@ -98,16 +104,16 @@ if (typeof jQuery === 'undefined') {
             document.getElementById('all-protein').textContent = totalProtein;
         };
 
-        // Очищення
         window.clearFood = function() {
+            console.log("clearFood called");
             foodList = [];
             document.querySelector('.food-note span').textContent = '';
             document.getElementById('all-calories').textContent = '0';
             document.getElementById('all-protein').textContent = '0';
         };
 
-        // Перегляд прогресу
         window.showProgress = function() {
+            console.log("showProgress called");
             let totalWorkouts = 0;
             for (let day in workoutSchedule) {
                 workoutSchedule[day].forEach(activity => {
@@ -125,4 +131,4 @@ if (typeof jQuery === 'undefined') {
             document.getElementById('progress-result').style.display = 'block';
         };
     });
-}
+});
