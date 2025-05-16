@@ -31,7 +31,8 @@ $(document).ready(function() {
             let muscleIndex = 0;
 
             days.forEach((_, i) => {
-                const currentDay = days[(startIndex + i) % days.length];
+                const currentDay = days[(firstDayIndex + i) % days.length];
+
                 const muscle = selectedMuscles[muscleIndex % selectedMuscles.length];
                 const $dayElement = $('#' + currentDay);
                 if ($dayElement.length) {
