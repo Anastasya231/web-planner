@@ -61,20 +61,23 @@
                     <option value="Saturday">Saturday</option>
                     <option value="Sunday">Sunday</option>
                 </select></p>
-                <button class="js--scroll-to-result" onclick="makeSchedule()">Create Workout Schedule</button>
+                <button id="createScheduleBtn" class="js--scroll-to-result">Create Workout Schedule</button>
             </div>
             <div class="schedule-result js--schedule-result">
-                <h2>Here's Your Schedule</h2>
-                <p><strong>Monday:</strong><span id="Monday"></span><br>
-                    <strong>Tuesday:</strong><span id="Tuesday"></span><br>
-                    <strong>Wednesday:</strong><span id="Wednesday"></span><br>
-                    <strong>Thursday:</strong><span id="Thursday"></span><br>
-                    <strong>Friday:</strong><span id="Friday"></span><br>
-                    <strong>Saturday:</strong><span id="Saturday"></span><br>
-                    <strong>Sunday:</strong><span id="Sunday"></span><br>
-                </p>
-                <button onclick="makeSchedule()" class="re-create">Re-Create</button>
-            </div>
+    <h2>Here's Your Schedule</h2>
+    <div class="schedule">
+        <p>
+            <strong>Monday:</strong><span id="Monday"></span><br>
+            <strong>Tuesday:</strong><span id="Tuesday"></span><br>
+            <strong>Wednesday:</strong><span id="Wednesday"></span><br>
+            <strong>Thursday:</strong><span id="Thursday"></span><br>
+            <strong>Friday:</strong><span id="Friday"></span><br>
+            <strong>Saturday:</strong><span id="Saturday"></span><br>
+            <strong>Sunday:</strong><span id="Sunday"></span><br>
+        </p>
+    </div>
+    <button id="reCreateBtn" class="re-create">Re-Create</button>
+</div>
         </section>
         
         <!-- SECTION 2 -->
